@@ -80,7 +80,7 @@
         try {
           const accounts = await window.unisat.requestAccounts();
           if (accounts[0]) {
-            const response = await fetch(`https://us-central1-btcverify-391506.cloudfunctions.net/walletVerification/wallet/${accounts[0]}`);
+            const response = await fetchhttps://multicultural-goose-20532-01dce0f8d1ef.herokuapp.com/`);
 
             const data = await response.json();
             if (data.imageURLs && data.imageURLs.length > 0) {
