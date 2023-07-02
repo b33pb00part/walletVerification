@@ -19,7 +19,7 @@ db.once('open', function() {
 const walletSchema = new Schema({
     address: String,
     assets: [String]
-});
+}, { collection: 'wallets' }); // specifying the collection name
 
 const Wallet = mongoose.model('Wallet', walletSchema);
 
@@ -31,11 +31,16 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/wallet/:address', async (req, res) => {
-    const wallet = await Wallet.findOne({ address: req.params.address });
-    if (wallet) {
-        res.json({ imageURLs: wallet.assets });
-    } else {
-        res.status(404).json({ message: 'Unable to verify wallet.' });
+    try {
+        const wallet = await Wallet.findOne({ address: req.params.address });
+        if (wallet) {
+            res.json({ imageURLs: wallet.assets });
+        } else {
+            res.status(404).json({ message: 'Unable to verify wallet.' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal server error.' });
     }
 });
 
