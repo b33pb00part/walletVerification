@@ -34,7 +34,8 @@ app.get('/wallet/:address', async (req, res) => {
     try {
         const wallet = await Wallet.findOne({ address: req.params.address });
         if (wallet) {
-            res.json({ imageURLs: wallet.assets });
+            res.json({ imageURLs: wallet.imageUrls });
+
         } else {
             res.status(404).json({ message: 'Unable to verify wallet.' });
         }
