@@ -2,14 +2,23 @@ const axios = require('axios');
 const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 const { Schema } = mongoose;
 
 // MongoDB model
-mongoose.connect('mongodb://localhost:27017/btcverify', { useNewUrlParser: true, useUnifiedTopology: true });
+const MONGODB_URI = process.env.MONGODB_URI;
+
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("Connected to MongoDB successfully...");
+});
 
 const walletSchema = new Schema({
     address: String,
-    imageURL: String
+    assets: [String]
 });
 
 const Wallet = mongoose.model('Wallet', walletSchema);
@@ -18,17 +27,17 @@ const Wallet = mongoose.model('Wallet', walletSchema);
 const app = express();
 app.use(cors());
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/wallet/:address', async (req, res) => {
     const wallet = await Wallet.findOne({ address: req.params.address });
     if (wallet) {
-        res.json(wallet);
+        res.json({ imageURLs: wallet.assets });
     } else {
-        const response = await axios.get(`https://api.blockcypher.com/v1/btc/main/addrs/${req.params.address}`);
-        const newWallet = new Wallet({ address: req.params.address, imageURL: response.data.image_url });
-        newWallet.save();
-        res.json(newWallet);
+        res.status(404).json({ message: 'Unable to verify wallet.' });
     }
 });
 
-// Cloud function
-exports.walletVerification = app;
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
