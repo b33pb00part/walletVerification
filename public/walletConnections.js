@@ -15,12 +15,12 @@ async function connectUnisat() {
                     const assetNames = ["Full color", "Monochromatic"];
 
                     for (let i = 0; i < data.imageURLs.length; i++) {
-                        const link = document.createElement('a');
-                        link.href = data.imageURLs[i];
-                        link.textContent = assetNames[i] ? assetNames[i] : `Click here to download asset ${i + 1}`;
-                        link.target = '_blank';
-                        linkContainer.appendChild(link);
-                    }
+    const link = document.createElement('a');
+    link.href = data.imageURLs[i];
+    link.textContent = assetNames[i] ? assetNames[i] : `Click here to download asset ${i + 1}`;
+    link.target = '_blank';
+    linkContainer.appendChild(link);
+}
                 } else {
                     alert('Unable to verify wallet.');
                 }

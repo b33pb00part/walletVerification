@@ -4,6 +4,27 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const { Schema } = mongoose;
+const { Storage } = require('@google-cloud/storage');
+
+// Google Cloud Storage setup
+const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+const storage = new Storage({ credentials });
+const bucketName = 'b33pb00p_assets';
+
+async function generateSignedUrl(bucketName, fileName) {
+    const options = {
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 10 * 60 * 1000, // 10 minutes
+    };
+
+    const [url] = await storage
+        .bucket(bucketName)
+        .file(fileName)
+        .getSignedUrl(options);
+
+    return url;
+}
 
 // MongoDB model
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -18,7 +39,7 @@ db.once('open', function() {
 
 const walletSchema = new Schema({
     address: String,
-    imageUrls: [String]
+    imageUrls: [Object]
 }, { collection: 'wallets' }); // specifying the collection name
 
 const Wallet = mongoose.model('Wallet', walletSchema);
@@ -43,7 +64,15 @@ app.get('/wallet/:address', async (req, res) => {
     const wallet = await Wallet.findOne({ address: address });
     if (wallet) {
         console.log('Found wallet:', wallet);
-        res.json({ imageURLs: wallet.imageUrls });
+        const signedUrls = [];
+        for (let imageUrl of wallet.imageUrls) {
+            let splitPath = imageUrl.split('/');
+            let fileName = splitPath.pop();
+            let bucketFolder = splitPath.pop();
+            let signedUrl = await generateSignedUrl('b33pb00p_assets/' + bucketFolder, fileName);
+            signedUrls.push(signedUrl);
+        }
+        res.json({ imageURLs: signedUrls });
     } else {
         console.log('No wallet found for address:', address);
         res.status(404).json({ message: 'Unable to verify wallet.' });
