@@ -1,3 +1,5 @@
+const { getAddress } = require('sats-connect');
+
 async function connectUnisat() {
     if (window.unisat) {
         try {
@@ -30,9 +32,6 @@ async function connectUnisat() {
         console.log('UniSat Wallet is not installed!');
     }
 }
-
-
-import { getAddress } from 'sats-connect';
 
 async function connectSatsConnect() {
   const getAddressOptions = {
