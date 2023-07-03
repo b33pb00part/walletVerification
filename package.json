@@ -10,6 +10,7 @@
     "axios": "^0.24.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^6.1.0"
+    "mongoose": "^6.1.0",
+    "sats-connect": "^1.0.0" // Check the correct version number
   }
 }
