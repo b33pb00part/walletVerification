@@ -64,12 +64,15 @@ app.get('/wallet/:address', async (req, res) => {
     const wallet = await Wallet.findOne({ address: address });
     if (wallet) {
         console.log('Found wallet:', wallet);
-        let imageURLs = [];
-        for (let img of wallet.imageUrls) {
-            let url = await generateSignedUrl(bucketName, `${img.type}/${img.fileName}`);
-            imageURLs.push(url);
+        const signedUrls = [];
+        for (let imageUrl of wallet.imageUrls) {
+            let splitPath = imageUrl.split('/');
+            let fileName = splitPath.pop();
+            let bucketFolder = splitPath.pop();
+            let signedUrl = await generateSignedUrl('b33pb00p_assets/' + bucketFolder, fileName);
+            signedUrls.push(signedUrl);
         }
-        res.json({ imageURLs });
+        res.json({ imageURLs: signedUrls });
     } else {
         console.log('No wallet found for address:', address);
         res.status(404).json({ message: 'Unable to verify wallet.' });
