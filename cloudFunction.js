@@ -30,6 +30,11 @@ app.use(cors());
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Add this line
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.get('/wallet/:address', async (req, res) => {
     const { address } = req.params;
     const wallet = await Wallet.findOne({ address: address });
