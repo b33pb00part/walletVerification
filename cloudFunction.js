@@ -30,6 +30,9 @@ app.use(cors());
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.static(path.join(__dirname, 'dist')));
+
+
 // Add this line
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

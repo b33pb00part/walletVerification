@@ -4,7 +4,9 @@
   "description": "A project to verify wallet addresses and return image URLs",
   "main": "cloudFunction.js",
   "scripts": {
-    "start": "node cloudFunction.js"
+    "start": "node cloudFunction.js",
+    "build": "webpack",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "axios": "^0.24.0",
@@ -12,5 +14,9 @@
     "express": "^4.17.1",
     "mongoose": "^6.1.0",
     "sats-connect": "^0.2.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   }
 }
