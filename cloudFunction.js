@@ -6,8 +6,10 @@ const path = require('path');
 const { Schema } = mongoose;
 const { Storage } = require('@google-cloud/storage');
 
+// Google Cloud Storage setup
 const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
 const storage = new Storage({ credentials });
+const bucketName = 'b33pb00p_assets';
 
 async function generateSignedUrl(bucketName, fileName) {
     const options = {
@@ -24,6 +26,7 @@ async function generateSignedUrl(bucketName, fileName) {
     return url;
 }
 
+// MongoDB model
 const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -36,16 +39,22 @@ db.once('open', function() {
 
 const walletSchema = new Schema({
     address: String,
-    imageUrls: [String]
-}, { collection: 'wallets' });
+    imageUrls: [Object]
+}, { collection: 'wallets' }); // specifying the collection name
 
 const Wallet = mongoose.model('Wallet', walletSchema);
 
+// Express.js server
 const app = express();
 app.use(cors());
+
+// Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.static(path.join(__dirname, 'dist')));
 
+
+// Add this line
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -53,13 +62,14 @@ app.get('/', function(req, res) {
 app.get('/wallet/:address', async (req, res) => {
     const { address } = req.params;
     const wallet = await Wallet.findOne({ address: address });
-    if (wallet && wallet.imageUrls) {
+    if (wallet) {
         console.log('Found wallet:', wallet);
-        const signedUrls = await Promise.all(wallet.imageUrls.map(async (url) => {
-            const fileName = url.split('/').pop(); // Assuming URLs are in the form 'gs://bucket-name/file-name'
-            return generateSignedUrl('b33pb00p_assets', fileName); // Replace 'bucket-name' with your bucket name
-        }));
-        res.json({ imageURLs: signedUrls });
+        let imageURLs = [];
+        for (let img of wallet.imageUrls) {
+            let url = await generateSignedUrl(bucketName, `${img.type}/${img.fileName}`);
+            imageURLs.push(url);
+        }
+        res.json({ imageURLs });
     } else {
         console.log('No wallet found for address:', address);
         res.status(404).json({ message: 'Unable to verify wallet.' });
