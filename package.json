@@ -8,6 +8,9 @@
     "build": "webpack",
     "heroku-postbuild": "npm run build"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "@google-cloud/storage": "^5.8.5",
     "axios": "^0.24.0",
@@ -17,8 +20,15 @@
     "sats-connect": "^0.2.0"
   },
   "devDependencies": {
-    "babel-loader": "^9.1.2",
     "webpack": "^5.64.4",
-    "webpack-cli": "^4.9.1"
+    "webpack-cli": "^4.9.1",
+    "babel-loader": "^8.2.3",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.7"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   }
 }
