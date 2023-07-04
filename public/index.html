@@ -7,10 +7,15 @@
     <style>
       /* Container style */
       .container {
-        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
         max-width: 800px;
         margin: 0 auto;
         text-align: center;
+        padding: 20px;
       }
 
       /* Image styles */
@@ -25,6 +30,8 @@
         margin-bottom: 20px;
         padding: 10px;
         font-size: 1.2em;
+        width: 100%;
+        max-width: 300px;
       }
 
       /* Button styles */
@@ -40,20 +47,23 @@
         margin: 4px 2px;
         cursor: pointer;
         border-radius: 4px;
+        width: 100%;
+        max-width: 300px;
       }
 
       /* Link styles */
       #asset-link a {
-        margin: 0 10px;
+        display: block;
+        margin: 10px 0;
         background-color: #008CBA; /* Blue */
         color: white;
         padding: 15px 32px;
         text-decoration: none;
-        display: inline-block;
         font-size: 16px;
-        margin: 4px 2px;
         cursor: pointer;
         border-radius: 4px;
+        width: 100%;
+        max-width: 300px;
       }
     </style>
 </head>
