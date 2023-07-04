@@ -12,10 +12,6 @@
         align-items: center;
         justify-content: center;
         height: 100vh;
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: center;
-        padding: 20px;
       }
 
       /* Image styles */
@@ -30,8 +26,7 @@
         margin-bottom: 20px;
         padding: 10px;
         font-size: 1.2em;
-        width: 100%;
-        max-width: 300px;
+        width: 200px;
       }
 
       /* Button styles */
@@ -47,18 +42,10 @@
         margin: 4px 2px;
         cursor: pointer;
         border-radius: 4px;
-        width: 100%;
-        max-width: 300px;
+        width: 200px;
       }
 
       /* Link styles */
-      #asset-link {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-      }
-      
       #asset-link a {
         display: block;
         margin: 10px 0;
@@ -67,20 +54,22 @@
         padding: 15px 32px;
         text-align: center;
         text-decoration: none;
+        display: inline-block;
         font-size: 16px;
         cursor: pointer;
         border-radius: 4px;
-        width: 100%;
-        max-width: 300px;
-        text-align: center;
-        font-size: 1.4em;
+        width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
-      /* Info text styles */
+      /* Info text style */
       #info-text {
         font-size: 1.2em;
         margin-top: 10px;
         color: #555;
+        visibility: hidden;
       }
     </style>
 </head>
@@ -94,11 +83,10 @@
         </select>
         <button id="connect-wallet">Connect Wallet</button>
         <div id="asset-link"></div>
-        <div id="info-text">These download links are only good for 30 minutes or you will need to reauthenticate.</div>
+        <p id="info-text">These download links are only good for 30 minutes or you will need to reauthenticate.</p>
     </div>
 
     <script src="./walletConnections.js"></script>
     <script src="/bundle.js"></script>
-
 </body>
 </html>

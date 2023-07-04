@@ -21,6 +21,11 @@ async function connectUnisat() {
                         link.target = '_blank';
                         linkContainer.appendChild(link);
                     }
+
+                    // Show the information text
+                    const infoText = document.getElementById('info-text');
+                    infoText.style.visibility = 'visible';
+
                 } else {
                     alert('Unable to verify wallet.');
                 }
@@ -64,6 +69,11 @@ async function connectSatsConnect() {
             link.target = '_blank';
             linkContainer.appendChild(link);
           }
+
+          // Show the information text
+          const infoText = document.getElementById('info-text');
+          infoText.style.visibility = 'visible';
+          
         } else {
           alert('Unable to verify wallet.');
         }
@@ -87,4 +97,3 @@ document.getElementById('connect-wallet').addEventListener('click', async () => 
     console.log('Unknown wallet type!');
   }
 });
-
