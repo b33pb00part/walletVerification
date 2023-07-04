@@ -73,6 +73,14 @@
         width: 100%;
         max-width: 300px;
         text-align: center;
+        font-size: 1.4em;
+      }
+
+      /* Info text styles */
+      #info-text {
+        font-size: 1.2em;
+        margin-top: 10px;
+        color: #555;
       }
     </style>
 </head>
@@ -82,10 +90,11 @@
         <img src="./android-chrome-512x512.png" alt="Logo">
         <select id="wallet-selector">
           <option value="unisat">Unisat Wallet</option>
-          <option value="sats-connect">Sats Connect</option>
+          <option value="sats-connect">Xverse/Sats</option>
         </select>
         <button id="connect-wallet">Connect Wallet</button>
         <div id="asset-link"></div>
+        <div id="info-text">These download links are only good for 30 minutes or you will need to reauthenticate.</div>
     </div>
 
     <script src="./walletConnections.js"></script>

@@ -15,7 +15,7 @@ async function generateSignedUrl(bucketName, fileName) {
     const options = {
         version: 'v4',
         action: 'read',
-        expires: Date.now() + 10 * 60 * 10000, // 10 minutes
+        expires: Date.now() + 10 * 60 * 3000, // 30 minutes
     };
 
     const [url] = await storage
