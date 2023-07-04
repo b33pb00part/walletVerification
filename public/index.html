@@ -7,11 +7,10 @@
     <style>
       /* Container style */
       .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
+        width: 90%;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
       }
 
       /* Image styles */
@@ -26,7 +25,6 @@
         margin-bottom: 20px;
         padding: 10px;
         font-size: 1.2em;
-        width: 200px;
       }
 
       /* Button styles */
@@ -42,48 +40,42 @@
         margin: 4px 2px;
         cursor: pointer;
         border-radius: 4px;
-        width: 200px;
       }
 
       /* Link styles */
       #asset-link a {
-        display: block;
-        margin: 10px 0;
+        margin: 0 10px;
         background-color: #008CBA; /* Blue */
         color: white;
         padding: 15px 32px;
-        text-align: center;
         text-decoration: none;
         display: inline-block;
         font-size: 16px;
+        margin-top: 20px; /* Add more space between buttons */
         cursor: pointer;
         border-radius: 4px;
-        width: 200px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
 
-      /* Info text style */
+      /* Expiration message style */
       #info-text {
-        font-size: 1.2em;
-        margin-top: 10px;
-        color: #555;
         visibility: hidden;
+        font-size: 1em;
+        color: #ff0000; /* Red */
+        margin-top: 20px;
       }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>b33p b00p Wallet Verification</h1>
-        <img src="./android-chrome-512x512.png" alt="Logo">
+        <img src="./android-chrome-512x512.png" alt="Logo" style="width: 200px;"> <!-- Change image width back -->
         <select id="wallet-selector">
           <option value="unisat">Unisat Wallet</option>
           <option value="sats-connect">Xverse/Sats</option>
         </select>
         <button id="connect-wallet">Connect Wallet</button>
         <div id="asset-link"></div>
-        <p id="info-text">These download links are only good for 30 minutes or you will need to reauthenticate.</p>
+        <p id="info-text">These download links are only good for 30 minutes, or you will need to reauthenticate.</p>
     </div>
 
     <script src="./walletConnections.js"></script>
