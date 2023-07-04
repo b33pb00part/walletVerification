@@ -13,8 +13,14 @@ async function connectSatsConnect() {
         const btcAddress = paymentAddresses[0].address;
         
         // Fetch image URLs
-        const response = await fetch(`https://b33pb00p-4d7029c0887f.herokuapp.com/wallet/${btcAddress}`).catch(err => console.log(err));
-        const data = await response.json();
+        const response = await fetch(`https://b33pb00p-4d7029c0887f.herokuapp.com/wallet/${btcAddress}`);
+if (!response.ok) {
+  throw new Error(`HTTP error! status: ${response.status}`);
+} else {
+  const data = await response.json();
+  // ... rest of your code
+}
+
         console.log(data);
 
         if (data.imageURLs && data.imageURLs.length > 0) {
